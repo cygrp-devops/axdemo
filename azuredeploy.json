@@ -16,7 +16,7 @@
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "subnet2Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet2Name'))]",
     "apiVersion": "2015-06-15",
-    "sharedBaseUrl" : "https://raw.githubusercontent.com/vicperdana/azure-quickstart-templates/master/windows-iis-sql-linked-multivm/nested/",
+    "sharedBaseUrl" : "https://github.com/cygrp-devops/axdemo/tree/experimental-test/Nested/",
     "secondTemplate" : {
       "templateUrl" : "[concat(variables('sharedBaseUrl'),'azuredeploy-web.json')]",
       "paramUrl" : "[concat(variables('sharedBaseUrl'),'azuredeploy-web.parameters.json')]"
