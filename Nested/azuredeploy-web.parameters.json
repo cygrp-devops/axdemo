@@ -1,18 +1,36 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Gist
+ @cygrp-devops
+ Sign out
+ Watch 1
+  Star 0
+ Fork 2,739 vicperdana/azure-quickstart-templates
+forked from Azure/azure-quickstart-templates
+ Code  Pull requests 0  Projects 0  Wiki  Pulse  Graphs
+Branch: master Find file Copy pathazure-quickstart-templates/windows-iis-sql-linked-multivm/nested/azuredeploy-web.parameters.json
+ba159f5  on Apr 29, 2016
+@vicperdana vicperdana Added first version
+1 contributor
+RawBlameHistory
+17 lines (17 sloc)  862 Bytes
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "adminUsername": {
-      "value": "demoadmin"
-    },
-    "adminPassword": {
-      "value": "CyB0rGr0Up!23"
-    },
-    "dnsLabelPrefix": {
-      "value": "axdemo"
-    },
-      "sasToken": {
-        "value": "?sv=2015-12-11&ss=bfqt&srt=sco&sp=rwdlacup&se=2017-02-16T08:26:22Z&st=2017-02-16T00:26:22Z&spr=https,http&sig=EIWqKKTKlKbozr9OdDbJqlMNgvTe793o2AhO4SSW4Bs%3D"
-      }
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "numOfInstances" : { "value": 2 },
+      "storageAccountName": { "value": "vicplinkeddemostor" },
+      "virtualNetworkName": { "value" : "VicPVNET" },
+      "subnetName" : { "value" : "FrontEnd-Subnet"},
+      "vmName" : { "value": "websvr" },
+      "vmSize" : { "value": "Standard_A1" },
+      "imageSKU" : {"value": "2012-R2-Datacenter"},
+      "adminUsername" : { "value" : "azureadmin"},
+      "adminPassword" : { "value" : "ChangeMe1237283649**7" },
+      "modulesUrl" : {"value": "https://github.com/Azure/azure-quickstart-templates/raw/master/dsc-extension-iis-server-windows-vm/ContosoWebsite.ps1.zip"},
+      "configurationFunction" : {"value" : "ContosoWebsite.ps1\\ContosoWebsite"}
     }
-  }
+}
