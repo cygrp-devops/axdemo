@@ -4,7 +4,7 @@
   "parameters": {},
   "variables": {
     "storageAccountName": "linkdemostorageaccount",
-    "location": "[resourceGroup().location]",
+    "location": "South Central US",
     "addressPrefix": "10.0.0.0/16",
     "subnet1Name": "FrontEnd-Subnet",
     "subnet2Name": "BackEnd-Subnet",
