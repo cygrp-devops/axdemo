@@ -1,4 +1,1 @@
 # axdemo
-
-
-chutiya
