@@ -67,6 +67,7 @@
     "subnetRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetName'))]",
     "publicIPAddressType": "Dynamic",
     "publicIPAddressName": "axPubIP",
+    "dnsLabelPrefix": "axdemo",
     "nicName": "axNIC",
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
@@ -83,7 +84,10 @@
         "count" : "[parameters('numOfInstances')]"
       },
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[variables('dnsLabelPrefix')]"
+        }
       }
     },
 
