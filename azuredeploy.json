@@ -1,48 +1,75 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
+  "parameters": {
+  },
   "variables": {
-    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'sawinvm')]",
+    "storageAccountName": "axlinkeddemostor",
+    "location": "[resourceGroup().location]",
     "addressPrefix": "10.0.0.0/16",
-    "subnetName": "axdemoSubnet",
-    "subnetPrefix": "10.0.0.0/24",
-    "virtualNetworkName": "MyVNET",
-    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]"
+    "subnet1Name": "FrontEnd-Subnet",
+    "subnet1Prefix": "10.0.0.0/24",
+    "storageAccountType": "Standard_LRS",
+    "virtualNetworkName": "VicPVNET",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
+    "apiVersion": "2015-06-15",
+    "sharedBaseUrl" : "https://raw.githubusercontent.com/cygrp-devops/axdemo/experimental-test/Nested/",
+    "secondTemplate" : {
+      "templateUrl" : "[concat(variables('sharedBaseUrl'),'azuredeploy-vm.json')]",
+      "paramUrl" : "[concat(variables('sharedBaseUrl'),'azuredeploy-vm.parameters.json')]"
+    }
   },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('storageAccountName')]",
-      "apiVersion": "2016-01-01",
-      "location": "[resourceGroup().location]",
-      "sku": {
-        "name": "Standard_LRS"
-      },
-      "kind": "Storage",
-      "properties": {}
-      },
+      "apiVersion": "[variables('apiVersion')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "accountType": "[variables('storageAccountType')]"
+      }
+    },
     {
-      "apiVersion": "2016-03-30",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('virtualNetworkName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[variables('location')]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
             "[variables('addressPrefix')]"
           ]
-      },
-      "subnets": [
-        {
-          "name": "[variables('subnetName')]",
-          "properties": {
-            "addressPrefix": "[variables('subnetPrefix')]"
+        },
+        "subnets": [
+          {
+            "name": "[variables('subnet1Name')]",
+            "properties": {
+              "addressPrefix": "[variables('subnet1Prefix')]"
+            }
           }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-01-01",
+      "name": "vmLinked",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('secondTemplate').templateUrl]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "[variables('secondTemplate').paramUrl]",
+          "contentVersion": "1.0.0.0"
         }
-      ]
+      }
     }
-  }
-  ],
-  "outputs": {}
+  ]
 }
