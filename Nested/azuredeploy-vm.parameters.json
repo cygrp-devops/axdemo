@@ -4,7 +4,7 @@
     "parameters": {
       "numOfInstances" : { "value": 2 },
       "storageAccountName": { "value": "axlinkeddemostor" },
-      "virtualNetworkName": { "value" : "axNET" },
+      "virtualNetworkName": { "value" : "axVNET" },
       "subnetName" : { "value" : "axSubnet"},
       "vmName" : { "value": "websvr" },
       "vmSize" : { "value": "Standard_A1" },
