@@ -4,7 +4,7 @@
   "parameters": {
     "numOfInstances" : {
       "type" : "int",
-      "defaultValue" : 1
+      "defaultValue" : 2
     },
     "storageAccountName": {
       "type": "string",
@@ -71,7 +71,8 @@
     "nicName": "axNIC",
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
-    "location" : "[resourceGroup().location]"
+    "location" : "[resourceGroup().location]",
+    "asName" : "axwebserveras"
   },
   "resources": [
     {
@@ -121,18 +122,29 @@
       }
     },
     {
+        "apiVersion": "2015-06-15",
+        "type": "Microsoft.Compute/availabilitySets",
+	      "name": "[variables('asName')]",
+	      "location": "[resourceGroup().location]",
+        "properties": {}
+	  },
+    {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(parameters('vmName'), copyIndex())]",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyIndex())]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyIndex())]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('asName'))]"
       ],
       "copy" : {
         "name" : "vmCopy",
         "count" : "[parameters('numOfInstances')]"
       },
       "properties": {
+        "availabilitySet": {
+          "id" : "[concat(resourceId('Microsoft.Compute/availabilitySets', variables('asName')))]"
+        },
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
         },

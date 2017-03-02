@@ -4,8 +4,8 @@
     "parameters": {
       "numOfInstances" : { "value": 2 },
       "storageAccountName": { "value": "axlinkeddemostor" },
-      "virtualNetworkName": { "value" : "VicPVNET" },
-      "subnetName" : { "value" : "FrontEnd-Subnet"},
+      "virtualNetworkName": { "value" : "axNET" },
+      "subnetName" : { "value" : "axSubnet"},
       "vmName" : { "value": "websvr" },
       "vmSize" : { "value": "Standard_A1" },
       "imageSKU" : {"value": "2012-R2-Datacenter"},
